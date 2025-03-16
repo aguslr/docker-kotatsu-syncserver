@@ -1,0 +1,31 @@
+version: '2.4'
+
+services:
+  db:
+    image: mariadb:lts
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_USER=kotatsu
+      - MYSQL_PASSWORD=kotatsupassword
+      - MYSQL_DATABASE=kotatsu
+    volumes:
+      - ./mysql:/var/lib/mysql
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1
+      interval: 20s
+      timeout: 3s
+  api:
+    container_name: kotatsu
+    build:
+      context: .
+    restart: unless-stopped
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USER=kotatsu
+      - DATABASE_PASSWORD=kotatsupassword
+      - DATABASE_NAME=kotatsu
+      - JWT_SECRET=your_secret
+      - ALLOW_NEW_REGISTER=true
+    ports:
+      - 8080:8080/tcp
