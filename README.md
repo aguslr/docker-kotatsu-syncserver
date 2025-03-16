@@ -16,7 +16,11 @@ Installation
 To use *docker-kotatsu-syncserver* with an [external database][4], follow these
 steps:
 
-1. Clone and start the container:
+1. Download the [database schema][5] to initialize your database:
+
+       mariadb -h your_mysql_db_host -u user your_mysql_db_user < ./database.sql
+
+2. Clone and start the container:
 
        docker run -p 8080:8080 \
          -e DATABASE_HOST=your_mysql_db_host \
@@ -26,7 +30,7 @@ steps:
          -e DATABASE_PORT=your_mysql_db_port \
          docker.io/aguslr/kotatsu-syncserver:latest
 
-2. Connect from your *Kotatsu* app to your *Kotatsu Sync Server*'s IP address on
+3. Connect from your *Kotatsu* app to your *Kotatsu Sync Server*'s IP address on
    port `8080`.
 
 
@@ -49,3 +53,4 @@ Instead of pulling the image from a remote repository, you can build it locally:
 [2]: https://github.com/KotatsuApp/kotatsu-syncserver
 [3]: https://github.com/KotatsuApp/Kotatsu
 [4]: https://kotatsu.app/dev/sync-server/
+[5]: https://raw.githubusercontent.com/KotatsuApp/kotatsu-syncserver/refs/heads/master/database.sql
